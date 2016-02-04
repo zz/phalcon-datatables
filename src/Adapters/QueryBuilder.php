@@ -25,7 +25,16 @@ class QueryBuilder extends AdapterInterface
 
         foreach ($columns as $i => $column) {
             if (is_array($column)) {
-                $columns[$i] = array_keys($column)[0];
+                $columnName = array_keys($column)[0];
+                // check thats not fake field
+                // if column faked and get values from item method we dont add column
+                if (!empty($column['fake'])) {
+                    unset($columns[$i]);
+                } else {
+                    $columns[$i] = $columnName;
+                }
+            } else {
+                $columns[$i] = $column;
             }
         }
 
@@ -106,7 +115,7 @@ class QueryBuilder extends AdapterInterface
 
                     if (!isset($columnMap[$columnName])) {
                         // undefined columnName
-                        continue;
+                        //continue;
                     }
                     $parameters = null;
                     if (is_array($methodData)) {
@@ -134,7 +143,7 @@ class QueryBuilder extends AdapterInterface
                 }
 
                 foreach ($methods as $columnName => $method) {
-                    $parameters = !empty($method['parameters']) ? $method['parameters'] : null;
+                    $parameters = !empty($method['parameters']) ? $method['parameters'] : [];
                     $itemData[$columnName] = call_user_func_array([$item, $method['methodName']], $parameters);
                 }
 
