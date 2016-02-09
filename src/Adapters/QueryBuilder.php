@@ -82,7 +82,8 @@ class QueryBuilder extends AdapterInterface
         $item = $filtered->items->getFirst();
         if ($item instanceof \Phalcon\Mvc\Model) {
             $filtered->items->rewind();
-            $columnMap = $metadata->getColumnMap($item);
+
+            $columnMap = $metadata->getAttributes($item);
             $columnMap = array_combine($columnMap, $columnMap);
 
             $extractMethods = function ($item) {
