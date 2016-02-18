@@ -36,7 +36,7 @@ abstract class AdapterInterface
     public function columnExists($column)
     {
         $notFakeField = true;
-        if (is_array($this->originalColumns)) {
+        if (isset($this->originalColumns) && is_array($this->originalColumns)) {
             foreach ($this->originalColumns as $columnDefinition) {
                 if (!is_array($columnDefinition) || array_keys($columnDefinition)[0] != $column) {
                     continue;
