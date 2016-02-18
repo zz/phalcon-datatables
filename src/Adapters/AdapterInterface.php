@@ -35,7 +35,19 @@ abstract class AdapterInterface
 
     public function columnExists($column)
     {
-        return in_array($column, $this->columns);
+        $notFakeField = true;
+        if (is_array($this->originalColumns)) {
+            foreach ($this->originalColumns as $columnDefinition) {
+                if (!is_array($columnDefinition) || array_keys($columnDefinition)[0] != $column) {
+                    continue;
+                }
+                if (!empty($columnDefinition[$column]['fake'])) {
+                    $notFakeField = false;
+                }
+            }
+        }
+
+        return in_array($column, $this->columns) && $notFakeField;
     }
 
     public function getParser()
