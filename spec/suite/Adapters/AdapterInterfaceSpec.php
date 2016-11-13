@@ -63,10 +63,12 @@ describe("AdapterInterface", function() {
   it("->columnExists()", function() {
 
     $adapter = new MyAdapter(10);
-    $columns  = ['user', 'name', 'email'];
+    $columns  = ['user', 'name', 'email', ['c.id', 'alias' => 'id']];
     $adapter->setColumns($columns);
-    expect($adapter->columnExists('user'))->toBe(true);
-    expect($adapter->columnExists('user1'))->toBe(false);
+    expect($adapter->columnExists('user'))->toBe('user');
+    expect($adapter->columnExists('id'))->toBe('c.id');
+    expect($adapter->columnExists('id', true))->toBe('id');
+    expect($adapter->columnExists('user1'))->toBe(null);
 
   });
 

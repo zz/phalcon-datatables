@@ -15,15 +15,15 @@ class ResultSet extends AdapterInterface {
     $offset = $this->parser->getOffset();
     $total  = $this->resultSet->count();
 
-    $this->bind('global_search', function($column, $search) {
+    $this->bind('global_search', false, function($column, $search) {
       $this->global[$column][] = $search;
     });
 
-    $this->bind('column_search', function($column, $search) {
+    $this->bind('column_search', false, function($column, $search) {
       $this->column[$column][] = $search;
     });
 
-    $this->bind('order', function($order) {
+    $this->bind('order', true, function($order) {
       $this->order = $order;
     });
 
@@ -34,7 +34,12 @@ class ResultSet extends AdapterInterface {
         if (count($this->global)) {
           foreach($this->global as $column=>$filters) {
             foreach($filters as $search) {
-              $check = (strpos($item->$column, $search) !== false);
+              $col = $this->columnExists($column, true);
+              if (!is_null($col)) {
+                $check = (strpos($item->$col, $search) !== false);
+              } else {
+                $check = false;
+              }
               if ($check) break 2;
             }
           }
@@ -45,7 +50,12 @@ class ResultSet extends AdapterInterface {
         if (count($this->column) && $check) {
           foreach($this->column as $column=>$filters) {
             foreach($filters as $search) {
-              $check = (strpos($item->$column, $search) !== false);
+              $col = $this->columnExists($column, true);
+              if (!is_null($col)) {
+                $check = (strpos($item->$col, $search) !== false);
+              } else {
+                $check = false;
+              }
               if (!$check) break 2;
             }
           }

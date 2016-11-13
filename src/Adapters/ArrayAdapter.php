@@ -18,15 +18,15 @@ class ArrayAdapter extends AdapterInterface {
     $offset = $this->parser->getOffset();
     $total  = count($this->array);
 
-    $this->bind('global_search', function($column, $search) {
+    $this->bind('global_search', false, function($column, $search) {
       $this->global[$column][] = $search;
     });
 
-    $this->bind('column_search', function($column, $search) {
+    $this->bind('column_search', false, function($column, $search) {
       $this->column[$column][] = $search;
     });
 
-    $this->bind('order', function($order) {
+    $this->bind('order', true, function($order) {
       $this->order = $order;
     });
 
@@ -35,10 +35,16 @@ class ArrayAdapter extends AdapterInterface {
         $check = false;
 
         if (count($this->global)) {
-          foreach($this->global as $column=>$filters) {
-            foreach($filters as $search) {
-              $check = (strpos($item[$column], $search) !== false);
-              if ($check) break 2;
+          foreach ($this->global as $column => $filters) {
+            foreach ($filters as $search) {
+              $col = $this->columnExists($column, true);
+              if (!is_null($col)) {
+                $check = (strpos($item[$col], $search) !== false);
+              } else {
+                $check = false;
+              }
+              if ($check)
+                break 2;
             }
           }
         } else {
@@ -46,10 +52,16 @@ class ArrayAdapter extends AdapterInterface {
         }
 
         if (count($this->column) && $check) {
-          foreach($this->column as $column=>$filters) {
-            foreach($filters as $search) {
-              $check = (strpos($item[$column], $search) !== false);
-              if (!$check) break 2;
+          foreach ($this->column as $column => $filters) {
+            foreach ($filters as $search) {
+              $col = $this->columnExists($column, true);
+              if (!is_null($col)) {
+                $check = (strpos($item[$col], $search) !== false);
+              } else {
+                $check = false;
+              }
+              if (!$check)
+                break 2;
             }
           }
         }

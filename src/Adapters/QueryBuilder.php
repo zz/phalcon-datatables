@@ -18,15 +18,17 @@ class QueryBuilder extends AdapterInterface{
 
     $total = $builder->getPaginate();
 
-    $this->bind('global_search', function($column, $search) {
-      $this->builder->orWhere("{$column} LIKE :key_{$column}:", ["key_{$column}" => "%{$search}%"]);
+    $this->bind('global_search', false, function($column, $search) {
+      $key = "key_" . str_replace(".", "", $column);
+      $this->builder->orWhere("{$column} LIKE :{$key}:", ["{$key}" => "%{$search}%"]);
     });
 
-    $this->bind('column_search', function($column, $search) {
-      $this->builder->andWhere("{$column} LIKE :key_{$column}:", ["key_{$column}" => "%{$search}%"]);
+    $this->bind('column_search', false, function($column, $search) {
+      $key = "key_" . str_replace(" ", "", str_replace(".", "", $column));
+      $this->builder->andWhere("{$column} LIKE :{$key}:", ["{$key}" => "%{$search}%"]);
     });
 
-    $this->bind('order', function($order) {
+    $this->bind('order', false, function($order) {
       if (!empty($order)) {
         $this->builder->orderBy(implode(', ', $order));
       }
