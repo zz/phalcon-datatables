@@ -8,7 +8,7 @@ abstract class AdapterInterface {
 
   protected $parser  = null;
   protected $columns = [];
-  protected $lentgh  = 30;
+  protected $length  = 30;
 
   public function __construct($length) {
     $this->length = $length;
@@ -30,6 +30,8 @@ abstract class AdapterInterface {
           if ($pos !== false) {
             $columns[$i]['alias'] = substr($column,  $pos + 1);
           }
+        } else {
+          $columns[$i]['alias'] = $column['alias'];
         }
       } else {
         $colArray = explode(" as ", $column);

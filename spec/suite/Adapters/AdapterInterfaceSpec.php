@@ -52,9 +52,9 @@ describe("AdapterInterface", function() {
     it("should successfully set columns", function() {
 
       $adapter = new MyAdapter(10);
-      $columns  = ['user', 'name', 'email'];
+      $columns  = ['user', 'name', 'c.email'];
       $adapter->setColumns($columns);
-      expect($adapter->getColumns())->toBe($columns);
+      expect($adapter->getColumns())->toBe([['user'], ['name'], ['c.email', 'alias' => 'email']]);
 
     });
 
@@ -63,11 +63,16 @@ describe("AdapterInterface", function() {
   it("->columnExists()", function() {
 
     $adapter = new MyAdapter(10);
-    $columns  = ['user', 'name', 'email', ['c.id', 'alias' => 'id']];
+    $columns  = ['user', 'name', 'email', 'r.role as role', ['c.id', 'alias' => 'id']];
     $adapter->setColumns($columns);
     expect($adapter->columnExists('user'))->toBe('user');
     expect($adapter->columnExists('id'))->toBe('c.id');
     expect($adapter->columnExists('id', true))->toBe('id');
+    expect($adapter->columnExists('c.id'))->toBe('c.id');
+    expect($adapter->columnExists('c.id', true))->toBe('id');
+    expect($adapter->columnExists('role', true))->toBe('role');
+    expect($adapter->columnExists('r.role'))->toBe('r.role');
+    expect($adapter->columnExists('c.role'))->toBe(null);
     expect($adapter->columnExists('user1'))->toBe(null);
 
   });
