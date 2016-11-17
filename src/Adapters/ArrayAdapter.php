@@ -39,7 +39,7 @@ class ArrayAdapter extends AdapterInterface {
             foreach ($filters as $search) {
               $col = $this->columnExists($column, true);
               if (!is_null($col)) {
-                $check = (strpos($item[$col], $search) !== false);
+                $check = (stripos($item[$col], $search) !== false);
               } else {
                 $check = false;
               }
@@ -56,7 +56,7 @@ class ArrayAdapter extends AdapterInterface {
             foreach ($filters as $search) {
               $col = $this->columnExists($column, true);
               if (!is_null($col)) {
-                $check = (strpos($item[$col], $search) !== false);
+                $check = (stripos($item[$col], $search) !== false);
               } else {
                 $check = false;
               }
