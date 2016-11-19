@@ -5,7 +5,7 @@ describe("ParamsParser", function() {
 
   describe("Malformed", function() {
 
-    before(function() {
+    \Kahlan\beforeEach(function() {
       $this->parser = new \DataTables\ParamsParser(10);
     });
 

@@ -6,7 +6,7 @@ use kahlan\plugin\Stub;
 
 describe("DataTable", function() {
 
-  before(function() {
+  \Kahlan\beforeEach(function() {
 
     $this->di = \Phalcon\DI::getDefault();
 
