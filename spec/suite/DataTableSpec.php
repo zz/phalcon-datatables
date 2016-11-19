@@ -142,7 +142,7 @@ describe("DataTable", function() {
   it("should disable view & send response", function() {
 
     $this->di->set('view', function() {
-      $view = Stub::create();
+      $view = new \Phalcon\Mvc\View();
 
       return $view;
     });
