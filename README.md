@@ -7,6 +7,7 @@
 
 # About
 This is a [Phalcon Framework](http://phalconphp.com/) adapter for [DataTables](http://www.datatables.net/).
+This version contains community fixes and multi model search support
 # Support
 ### Currently supported
 * QueryBuilder interface
@@ -26,7 +27,7 @@ This is a [Phalcon Framework](http://phalconphp.com/) adapter for [DataTables](h
 ```json
 {
     "require": {
-        "m1ome/phalcon-datatables": "1.*"
+        "magnxpyr/phalcon-datatables": "1.*"
     }
 }
 ```

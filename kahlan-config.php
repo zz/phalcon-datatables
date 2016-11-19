@@ -1,9 +1,9 @@
 <?php
-use filter\Filter;
-use kahlan\reporter\coverage\exporter\Coveralls;
+use Kahlan\Filter\Filter;
+use Kahlan\Reporter\Coverage\Exporter\Coveralls;
 
-$args = $this->args();
-$args->argument('coverage', 'default', 3);
+$args = $this->commandLine();
+$args->option('coverage', 'default', 3);
 
 Filter::register('phalcon.namespace', function($chain) {
   $this->_autoloader->addPsr4('Spec\\Models\\', __DIR__ . '/spec/models/');

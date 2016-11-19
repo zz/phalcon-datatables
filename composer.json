@@ -1,5 +1,5 @@
 {
-    "name": "m1ome/phalcon-datatables",
+    "name": "magnxpyr/phalcon-datatables",
     "description": "DataTables adapter for Phalcon Framework",
     "keywords": ["Phalcon", "DataTables", "Plugin"],
     "license": "MIT",
@@ -12,6 +12,10 @@
       {
         "name": "Pavel Makarenko",
         "email": "cryfall@gmail.com"
+      },
+      {
+        "name": "Stefan Chiriac",
+        "email": "stefan@magnxpyr.com"
       }
     ],
     "minimum-stability": "dev",
@@ -24,7 +28,7 @@
       }
     },
     "require-dev": {
-      "crysalead/kahlan": "~1.1",
-      "fzaninotto/faker": "1.5.*@dev"
+      "fzaninotto/faker": "1.5.*@dev",
+      "kahlan/kahlan": "^3.0"
     }
 }
