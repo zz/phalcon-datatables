@@ -30,40 +30,48 @@ class QueryBuilder extends AdapterInterface
 
         if ($result !== null) return $result;
 
-        if (strpos($column, '.')) {
-            list($table, $columnAlias) = explode('.', $column);
+        $alias = null;
 
-            $from = $this->builder->getFrom();
+        $modelClass = null;
 
-            $modelClass = null;
+        $from = $this->builder->getFrom();
 
-            if (array_key_exists($table, $from)) {
+        list($table, $alias) = strpos($column, '.')
+            ? explode('.', $column)
+            : [null, $column];
+
+        if (!is_array($from)) {
+            $modelClass = $from;
+        } elseif (array_key_exists($table, $from)) {
+            if (!$table) {
+                $modelClass = array_values($from)[0];
+            } elseif (array_key_exists($table, $from)) {
                 $modelClass = $from[$table];
             }
+        }
 
-            if (!$modelClass) {
-                $joins = $this->builder->getJoins();
+        if (!$modelClass) {
+            $joins = $this->builder->getJoins();
 
-                foreach ($joins as $join) {
-                    if ($table === $join[2]) {
-                        $modelClass = $join[0];
-                        break;
-                    }
+            foreach ($joins as $join) {
+                if ($table === $join[2]) {
+                    $modelClass = $join[0];
+                    break;
                 }
             }
+        }
 
-            if (!$modelClass) {
-                return $result;
-            }
+        if (!$modelClass) {
+            return $result;
+        }
 
-            /** @var \Phalcon\Mvc\Model $model */
-            $model = new $modelClass;
+        /** @var \Phalcon\Mvc\Model $model */
+        $model = new $modelClass;
 
-            $attributes = $model->getModelsMetaData()->getAttributes($model);
+        $attributes = $model->getModelsMetaData()->getAttributes($model);
 
-            if (in_array($columnAlias, $attributes, true)) {
-                return $column;
-            }
+        if (in_array($alias, $attributes, true)) {
+            return $column;
         }
 
         return $result;
