@@ -44,8 +44,11 @@ class QueryBuilder extends AdapterInterface
             if (!$modelClass) {
                 $joins = $this->builder->getJoins();
 
-                if (array_key_exists($table, $joins)) {
-                    $modelClass = $joins[$table];
+                foreach ($joins as $join) {
+                    if ($table === $join[2]) {
+                        $modelClass = $join[0];
+                        break;
+                    }
                 }
             }
 
