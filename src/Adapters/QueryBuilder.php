@@ -1,65 +1,120 @@
 <?php
+
 namespace DataTables\Adapters;
+
 use Phalcon\Paginator\Adapter\QueryBuilder as PQueryBuilder;
+use Phalcon\Mvc\Model\Query\Builder as PhalconQueryBuilder;
 
-class QueryBuilder extends AdapterInterface{
-  protected $builder;
-  private $global_search;
-  private $column_search;
-  private $_bind;
+class QueryBuilder extends AdapterInterface
+{
 
-  public function setBuilder($builder) {
-    $this->builder = $builder;
-  }
+    /**
+     * @var PhalconQueryBuilder
+     */
+    protected $builder;
 
-  public function getResponse() {
-    $builder = new PQueryBuilder([
-      'builder' => $this->builder,
-      'limit'   => 1,
-      'page'    => 1,
-    ]);
+    private $global_search;
 
-    $total = $builder->getPaginate();
-    $this->global_search = [];
-    $this->column_search = [];
+    private $column_search;
 
-    $this->bind('global_search', false, function($column, $search) {
-      $key = "keyg_" . str_replace(".", "", $column);
-      $this->global_search[] = "{$column} LIKE :{$key}:";
-      $this->_bind[$key] = "%{$search}%";
-    });
+    private $_bind;
 
-    $this->bind('column_search', false, function($column, $search) {
-      $key = "keyc_" . str_replace(" ", "", str_replace(".", "", $column));
-      $this->column_search[] = "{$column} LIKE :{$key}:";
-      $this->_bind[$key] = "%{$search}%";
-    });
-
-    $this->bind('order', false, function($order) {
-      if (!empty($order)) {
-        $this->builder->orderBy(implode(', ', $order));
-      }
-    });
-
-    if (!empty($this->global_search) || !empty($this->column_search)) {
-      $where = implode(' OR ', $this->global_search);
-      if (!empty($this->column_search))
-        $where = (empty($where) ? '' : ('(' . $where . ') AND ')) . implode(' AND ', $this->column_search);
-      $this->builder->andWhere($where, $this->_bind);
+    public function setBuilder($builder)
+    {
+        $this->builder = $builder;
     }
 
-    $builder = new PQueryBuilder([
-      'builder' => $this->builder,
-      'limit'   => $this->parser->getLimit($total->total_items),
-      'page'    => $this->parser->getPage(),
-    ]);
+    public function columnExists($column, $getAlias = false)
+    {
+        $result = parent::columnExists($column, $getAlias);
 
-    $filtered = $builder->getPaginate();
+        if ($result !== null) return $result;
 
-    return $this->formResponse([
-      'total'     => $total->total_items,
-      'filtered'  => $filtered->total_items,
-      'data'      => $filtered->items->toArray(),
-    ]);
-  }
+        if (strpos($column, '.')) {
+            list($table, $columnAlias) = explode('.', $column);
+
+            $from = $this->builder->getFrom();
+
+            $modelClass = null;
+
+            if (array_key_exists($table, $from)) {
+                $modelClass = $from[$table];
+            }
+
+            if (!$modelClass) {
+                $joins = $this->builder->getJoins();
+
+                if (array_key_exists($table, $joins)) {
+                    $modelClass = $joins[$table];
+                }
+            }
+
+            if (!$modelClass) {
+                return $result;
+            }
+
+            /** @var \Phalcon\Mvc\Model $model */
+            $model = new $modelClass;
+
+            $attributes = $model->getModelsMetaData()->getAttributes($model);
+
+            if (in_array($columnAlias, $attributes, true)) {
+                return $column;
+            }
+        }
+
+        return $result;
+    }
+
+    public function getResponse()
+    {
+        $builder = new PQueryBuilder([
+            'builder' => $this->builder,
+            'limit' => 1,
+            'page' => 1,
+        ]);
+
+        $total = $builder->getPaginate();
+        $this->global_search = [];
+        $this->column_search = [];
+
+        $this->bind('global_search', false, function ($column, $search) {
+            $key = "keyg_" . str_replace(".", "", $column);
+            $this->global_search[] = "{$column} LIKE :{$key}:";
+            $this->_bind[$key] = "%{$search}%";
+        });
+
+        $this->bind('column_search', false, function ($column, $search) {
+            $key = "keyc_" . str_replace(" ", "", str_replace(".", "", $column));
+            $this->column_search[] = "{$column} LIKE :{$key}:";
+            $this->_bind[$key] = "%{$search}%";
+        });
+
+        $this->bind('order', false, function ($order) {
+            if (!empty($order)) {
+                $this->builder->orderBy(implode(', ', $order));
+            }
+        });
+
+        if (!empty($this->global_search) || !empty($this->column_search)) {
+            $where = implode(' OR ', $this->global_search);
+            if (!empty($this->column_search))
+                $where = (empty($where) ? '' : ('(' . $where . ') AND ')) . implode(' AND ', $this->column_search);
+            $this->builder->andWhere($where, $this->_bind);
+        }
+
+        $builder = new PQueryBuilder([
+            'builder' => $this->builder,
+            'limit' => $this->parser->getLimit($total->total_items),
+            'page' => $this->parser->getPage(),
+        ]);
+
+        $filtered = $builder->getPaginate();
+
+        return $this->formResponse([
+            'total' => $total->total_items,
+            'filtered' => $filtered->total_items,
+            'data' => $filtered->items->toArray(),
+        ]);
+    }
 }
