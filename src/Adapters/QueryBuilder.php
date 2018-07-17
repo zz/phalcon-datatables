@@ -42,7 +42,7 @@ class QueryBuilder extends AdapterInterface
 
         if (!is_array($from)) {
             $modelClass = $from;
-        } elseif (array_key_exists($table, $from)) {
+        } else {
             if (!$table) {
                 $modelClass = array_values($from)[0];
             } elseif (array_key_exists($table, $from)) {
@@ -53,10 +53,12 @@ class QueryBuilder extends AdapterInterface
         if (!$modelClass) {
             $joins = $this->builder->getJoins();
 
-            foreach ($joins as $join) {
-                if ($table === $join[2]) {
-                    $modelClass = $join[0];
-                    break;
+            if ($joins) {
+                foreach ($joins as $join) {
+                    if ($table === $join[2]) {
+                        $modelClass = $join[0];
+                        break;
+                    }
                 }
             }
         }
