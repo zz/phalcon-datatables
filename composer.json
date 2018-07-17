@@ -1,5 +1,5 @@
 {
-    "name": "magnxpyr/phalcon-datatables",
+    "name": "qrotux/phalcon-datatables",
     "description": "DataTables adapter for Phalcon Framework",
     "keywords": ["Phalcon", "DataTables", "Plugin"],
     "license": "MIT",
@@ -16,6 +16,10 @@
       {
         "name": "Stefan Chiriac",
         "email": "stefan@magnxpyr.com"
+      },
+      {
+        "name": "Smolyaninov Ilya",
+        "email": "qrotux@gmail.com"
       }
     ],
     "minimum-stability": "dev",
