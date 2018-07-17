@@ -11,7 +11,9 @@ class DataTable extends \Phalcon\Mvc\User\Plugin
 {
 
     protected $options;
+
     protected $params;
+
     protected $response;
 
     /**
@@ -53,6 +55,11 @@ class DataTable extends \Phalcon\Mvc\User\Plugin
         $response->send();
     }
 
+    /**
+     * @param QueryBuilder $builder
+     * @param array $columns
+     * @return $this
+     */
     public function fromBuilder($builder, $columns = [])
     {
         if (empty($columns)) {
@@ -70,6 +77,11 @@ class DataTable extends \Phalcon\Mvc\User\Plugin
         return $this;
     }
 
+    /**
+     * @param \Phalcon\Mvc\Model\Resultset $resultSet
+     * @param array $columns
+     * @return $this
+     */
     public function fromResultSet($resultSet, $columns = [])
     {
         if (empty($columns) && $resultSet->count() > 0) {

@@ -23,7 +23,7 @@ class ParamsParser extends Component
 
         $request = $this->di->get('request');
         $requestParams = $request->isPost() ? $request->getPost() : $request->getQuery();
-        $this->params = (array) $requestParams + $params;
+        $this->params = (array)$requestParams + $params;
         $this->setPage();
     }
 
@@ -34,7 +34,7 @@ class ParamsParser extends Component
 
     public function setPage()
     {
-        $this->page = (int) (floor($this->params['start'] / $this->params['length']) + 1);
+        $this->page = (int)(floor($this->params['start'] / $this->params['length']) + 1);
     }
 
     public function getPage()
@@ -44,16 +44,16 @@ class ParamsParser extends Component
 
     public function getColumnsSearch()
     {
-        return array_filter(array_map(function($item) {
-                    return (isset($item['search']['value']) && strlen($item['search']['value'])) ? $item : null;
-                }, $this->params['columns']));
+        return array_filter(array_map(function ($item) {
+            return (isset($item['search']['value']) && strlen($item['search']['value'])) ? $item : null;
+        }, $this->params['columns']));
     }
 
     public function getSearchableColumns()
     {
-        return array_filter(array_map(function($item) {
-                    return (isset($item['searchable']) && $item['searchable'] === "true") ? $item['data'] : null;
-                }, $this->params['columns']));
+        return array_filter(array_map(function ($item) {
+            return (isset($item['searchable']) && $item['searchable'] === "true") ? $item['data'] : null;
+        }, $this->params['columns']));
     }
 
     public function getDraw()
