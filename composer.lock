@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5ee59dd837f047bf54e4080f550737cf",
-    "content-hash": "640f30eb73f7ba840124e4416b8c5d45",
+    "hash": "9aebc8136c360aeda69ddde9c8e12600",
+    "content-hash": "b7d1f334fc8879d7a5fad6cd4ea5cdb5",
     "packages": [],
     "packages-dev": [
         {
@@ -23,7 +23,7 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.3|^7.0"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0",
@@ -62,16 +62,16 @@
         },
         {
             "name": "kahlan/kahlan",
-            "version": "3.0.2",
+            "version": "3.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kahlan/kahlan.git",
-                "reference": "3a48a2e638e31dca1427dd5ae38640b621e8eb3a"
+                "reference": "598c3682ca47fef162398a7acd706acd4fe39798"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/3a48a2e638e31dca1427dd5ae38640b621e8eb3a",
-                "reference": "3a48a2e638e31dca1427dd5ae38640b621e8eb3a",
+                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/598c3682ca47fef162398a7acd706acd4fe39798",
+                "reference": "598c3682ca47fef162398a7acd706acd4fe39798",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,6 @@
                     "Kahlan\\": "src/"
                 },
                 "files": [
-                    "src/init.php",
                     "src/functions.php"
                 ]
             },
@@ -113,7 +112,55 @@
                 "testing",
                 "unit test"
             ],
-            "time": "2016-10-16 11:23:34"
+            "time": "2017-08-12 20:37:11"
+        },
+        {
+            "name": "phalcon/ide-stubs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalcon/ide-stubs.git",
+                "reference": "af75e05f8cdcda31ee45145dbd918b8a75ffcce4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/af75e05f8cdcda31ee45145dbd918b8a75ffcce4",
+                "reference": "af75e05f8cdcda31ee45145dbd918b8a75ffcce4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Phalcon Team",
+                    "email": "team@phalconphp.com",
+                    "homepage": "https://phalconphp.com/en/team"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/phalcon/ide-stubs/graphs/contributors"
+                }
+            ],
+            "description": "The most complete Phalcon Framework IDE stubs library which enables autocompletion in modern IDEs.",
+            "homepage": "https://phalconphp.com",
+            "keywords": [
+                "Devtools",
+                "Eclipse",
+                "autocomplete",
+                "ide",
+                "netbeans",
+                "phalcon",
+                "phpstorm",
+                "stub",
+                "stubs"
+            ],
+            "time": "2018-05-28 06:20:06"
         }
     ],
     "aliases": [],
