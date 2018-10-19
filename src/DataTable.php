@@ -56,8 +56,8 @@ class DataTable extends \Phalcon\Mvc\User\Plugin
     }
 
     /**
-     * @param \Phalcon\Mvc\Model\Query\Builder $builder
-     * @param array $columns
+     * @param \Phalcon\Mvc\Model\Query\Builder|\Phalcon\Mvc\Model\Query\BuilderInterface $builder
+     * @param array|string $columns
      * @return $this
      */
     public function fromBuilder($builder, $columns = [])
