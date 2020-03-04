@@ -1,5 +1,5 @@
 {
-    "name": "qrotux/phalcon-datatables",
+    "name": "easyconn/phalcon-datatables",
     "description": "DataTables adapter for Phalcon Framework",
     "keywords": ["Phalcon", "DataTables", "Plugin"],
     "license": "MIT",
