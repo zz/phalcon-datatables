@@ -10,11 +10,11 @@ use Phalcon\Http\Response;
 class DataTable extends \Phalcon\Mvc\User\Plugin
 {
 
-    protected $options;
+    public $options;
 
-    protected $params;
+    public $params;
 
-    protected $response;
+    public $response;
 
     /**
      *
